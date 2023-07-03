@@ -95,10 +95,10 @@ def get_fee(end_day):
   fees = fetch_stats(feesquery, 'hourlyFees')
   return fees
 
-def get_fast_price(symbol,end_day):
+def get_fast_price(symbol,end_day,token_list):
   # 获取价格
   # 获取token的address
-  token_list = ['ETH',"WBTC"]
+  # token_list = ['ETH',"WBTC"]
   address_list = [x for x in symbol.index if symbol.loc[x,'data.symbol'] in token_list]
   prc = {}
   end_day = int(pd.to_datetime(end_day,format = '%Y%m%d%H').timestamp())
@@ -132,17 +132,13 @@ def get_fast_price(symbol,end_day):
     price_data.rename(columns={'value':'value.' + token_name.lower()}, inplace=True)
     prc[token_name] = price_data
 
-  # 缺少usdc价格，用1填充
-  # prc['USDC.e'] = prc['ETH'].copy()
-  # prc['USDC.e']['value.usdc'] = 1
   return prc
 
-def show_case(glp,fees,prc):
+def show_case(glp,fees,prc,hedge_ratio = 1):
   # 转换精度
   data = pd.merge(glp,fees,on=['id','time'])
   data = pd.merge(data,prc['ETH'][['time','value.eth']],on=['time'])
   data = pd.merge(data,prc['WBTC'][['time','value.wbtc']],on=['time'])
-  # data = pd.merge(data,prc['USDC.e'][['time','value.usdc']],on=['time']).sort_values('time')
   data.sort_values('time',inplace=True)
   data['margin'] = data['margin'].astype(float) / 10**30
   data['marginAndLiquidation'] = data['marginAndLiquidation'].astype(float) / 10**30
@@ -155,26 +151,28 @@ def show_case(glp,fees,prc):
   data['liquidation'] = data['marginAndLiquidation'] - data['margin']
   data.reset_index(inplace=True,drop=True)
 
-
+  # 设置仓位和对冲比率
   v0 = 10000 # usd
-  veth = 0.25 * v0
-  vwbtc = 0.25 * v0
-  # vusdc = 0.5 * v0
+  veth = 0.25 * v0 * hedge_ratio
+  vwbtc = 0.25 * v0 * hedge_ratio
+  
+  # 计算买的数量
   result = pd.DataFrame()
   result['Date'] = data['time']
   my_glp = v0 / data['price'][0]
   my_eth = -veth / data['value.eth'][0]
-  my_wbtc = -vwbtc / data['value.wbtc'][0]
-  # my_usdc = -vusdc / data['value.usdc'][0]
+  my_wbtc = -vwbtc / data['value.wbtc'][0] # 取负号方便后面计算hedge_value
+  
+  # 计算资产池的价值
+
   result['glp_value'] = data['price'] * my_glp
   result['eth_value'] = data['value.eth'] * my_eth
   result['wbtc_value'] = data['value.wbtc'] * my_wbtc
-  # result['usdc_value'] = data['value.usdc'] * my_usdc
-  result['total_value'] = result['glp_value'] + result['eth_value'] + result['wbtc_value'] # + result['usdc_value']
+  result['total_value'] = result['glp_value'] + result['eth_value'] + result['wbtc_value'] 
   result['ratio'] = my_glp / data['glpSupply']
   result['div'] = data['total'] * result['ratio']
+  # ret是累计分红 + 资产池相对于初始状态变化
   result['ret'] = result['div'].cumsum() + result['total_value'] - result['total_value'].iloc[0]
-
 
   result = result.fillna(0)
   # 计算最大回撤
@@ -217,5 +215,5 @@ def show_case(glp,fees,prc):
   )
 
   fig = go.Figure(data=plot_data, layout=layout)
-  return result,fig
+  return result,fig,data
 

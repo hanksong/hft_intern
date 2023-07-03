@@ -560,7 +560,22 @@ subgraph:  https://subgraph.satsuma-prod.com/3b2ced13c8d9/gmx/gmx-arbitrum-stats
     }
 
 # July 3rd
+Rebalance重新平衡机制：
+ - no IL
+ - 动态费率
+ - 动态composition
 
+
+
+
+
+ques:
+ * trader 的PNL 会反应到$GLP吗
+   * trader long and win : GLP的美元价值不变，eth价值减小。 
+   * trader short and win ： GLP的eth价值不变，美元价值减小。
+ * 
+
+fast price 是什么
 USDC的数据亟待解决
-
 用小时数据回测了
+![1688366794087](image/diary/1688366794087.png)
