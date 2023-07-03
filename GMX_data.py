@@ -134,7 +134,7 @@ def get_fast_price(symbol,end_day,token_list):
 
   return prc
 
-def show_case(glp,fees,prc,hedge_ratio = 1):
+def show_case(glp,fees,prc,hedge_ratio = []):
   # 转换精度
   data = pd.merge(glp,fees,on=['id','time'])
   data = pd.merge(data,prc['ETH'][['time','value.eth']],on=['time'])
@@ -153,8 +153,8 @@ def show_case(glp,fees,prc,hedge_ratio = 1):
 
   # 设置仓位和对冲比率
   v0 = 10000 # usd
-  veth = 0.25 * v0 * hedge_ratio
-  vwbtc = 0.25 * v0 * hedge_ratio
+  veth = v0 * hedge_ratio[0]
+  vwbtc = v0 * hedge_ratio[1]
   
   # 计算买的数量
   result = pd.DataFrame()
@@ -191,7 +191,7 @@ def show_case(glp,fees,prc,hedge_ratio = 1):
   print('apy: ', apy)
   print('sharpe: ', sharpe)
   print('max drawdown: ',result['drawdown'].min(),'end at: ', max_drawdown_end)
-
+  indicators = [apy,sharpe,result['drawdown'].min()]
 
 
   # plot
@@ -215,5 +215,5 @@ def show_case(glp,fees,prc,hedge_ratio = 1):
   )
 
   fig = go.Figure(data=plot_data, layout=layout)
-  return result,fig,data
+  return result,fig,data,indicators
 
