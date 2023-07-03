@@ -227,7 +227,7 @@ todo：
 
 ---
 
-# June 13th
+# June 13rd
 
  实现remove + add 连接：
 
@@ -344,7 +344,7 @@ v1.3
 
 ---
 
-# June 21th
+# June 21st
 
 向下的漂移项我认为是由对冲时机滞后导致的，每次发生对冲时，从相对长（20min一格）的时间维度看，总是发生在两个价格都移动之后，此时IL已经发生，而对冲相当于在IL的最高点。
 
@@ -558,3 +558,9 @@ subgraph:  https://subgraph.satsuma-prod.com/3b2ced13c8d9/gmx/gmx-arbitrum-stats
         __typename
       }
     }
+
+# July 3rd
+
+USDC的数据亟待解决
+
+用小时数据回测了
