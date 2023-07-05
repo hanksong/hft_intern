@@ -146,7 +146,7 @@ def show_case(glp,fees,prc,hedge_ratio = []):
   data['mint'] = data['mint'].astype(float) / 10**30
   data['burn'] = data['burn'].astype(float) / 10**30
   data['total'] = data['marginAndLiquidation'] + data['swap'] + data['mint'] + data['burn']
-  data['aumInUsdg'] = data['aumInUsdg'].astype(float) / 10**30
+  data['aumInUsdg'] = data['aumInUsdg'].astype(float) / 10**18
   data['glpSupply'] = data['glpSupply'].astype(float) / 10**18
   data['liquidation'] = data['marginAndLiquidation'] - data['margin']
   data.reset_index(inplace=True,drop=True)
