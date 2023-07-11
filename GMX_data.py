@@ -25,7 +25,11 @@ def get_actions():
   data['time'] = pd.to_datetime(data['data.timestamp'], unit='s')
   return data
 
-
+# 计算合约盈亏
+def calc_bi_pnl(open:float, close:float,direction : int,contract_value : float):
+    return (1/open - 1/close) * direction * contract_value
+def calc_u_pnl(open, close,direction,contract_value):
+    return (close - open)/open * direction * contract_value
 
 def fetch_stats(query,name):
     url = 'https://subgraph.satsuma-prod.com/3b2ced13c8d9/gmx/gmx-arbitrum-stats/api'

@@ -692,7 +692,7 @@ $$
 - GLP价格；eth价格；
 - 实时的可换回的eth数量
 - 合约PnL，以u或eth计；
-- divident
+- dividend
 
 failed examples：
 umami必须要做空，做空要不断平衡，平衡手续费umami用的第三方平台开销很大。
@@ -716,3 +716,62 @@ Uni回测报告撰写中发现数据源不干净，换了回测区间重新测�
 ### case2 u本位合约
 
 ![1688634894418](image/diary/1688634894418.png)
+
+
+# todo
+
+## GMX
+  * 多种对冲方式，现货 期货 多币种权重变化 ； 风险控制（仓位
+  * 等待同步。。。
+## Uni
+  * 现货，完善模型，增加参数或者丰富模型，参考现有案例
+  * 期货，换成期货对冲，加上仓位控制
+      * **Nomination 如何确定？**
+      1. 按照爆仓和remove对应
+      2. 不希望爆仓。
+  * 期权，调研（看docs）
+
+
+---
+
+# July 11th
+
+## Uni -hanliang
+
+期货对冲：
+  1. 期货对冲的思路和现货有区别
+  2. 希望两个币的数量都稳定，价格上升时，eth减少&usdt增加，希望有一个产品能够在价格上升时给我eth和拿走usdt。
+  3. 币本位long + u本位short。Nomination和加入的区间与资金量关联。比如：作为LP提供了25eth，区间为3%，那么当价格浮动3%时，合约的pnl应为±25eth。（margin太多or倍数太高），因为UniV3Lp天然有杠杆，增加margin不能解决问题。
+    * 扩大Uni区间
+    
+
+# 损益分析
+Uniswap的币变动由以下公式给出：
+$$
+dx = liq \times (\frac{1}{\sqrt{p_1}} - \frac{1}{\sqrt{p_0}})
+$$
+同时，合约的损益为：
+$$
+PnL = (\frac{1}{p_0} - \frac{1}{p_1}) * n_{value}
+$$
+$n_{value}$ 是合约名义价值，即当杠杆为2x，nomination为1000usdt时，合约实际的名义价值为2 * 1000 usdt。
+
+因此要使得合约的损益对冲，需要满足：
+$$
+totalPnL = Pnl + dx = liq \times (\frac{1}{\sqrt{p_1}} - \frac{1}{\sqrt{p_0}}) + (\frac{1}{p_0} - \frac{1}{p_1}) * n_{value}
+$$
+**选取合适的$n_{value}$使得$totalPnL$方差最小.**
+
+
+report：
+  * 对冲原理 ：合约逻辑，数理模型
+  * 回测结果，case分析，优化
+
+## GMX ： fangyu
+
+验证GMX的回测报告。
+
+
+
+
+
