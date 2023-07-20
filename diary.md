@@ -1,6 +1,22 @@
 ---
-theme: unicorn
+# try also 'default' to start simple
+theme: seriph
+# random image from a curated Unsplash collection by Anthony
+# like them? see https://unsplash.com/collections/94734566/slidev
+background: https://source.unsplash.com/collection/94734566/1920x1080
+# apply any windi css classes to the current slide
+class: 'text-center'
+# https://sli.dev/custom/highlighters.html
+highlighter: shiki
+# some information about the slides, markdown enabled
+info: |
+  ## Slidev Starter Template
+  Presentation slides for developers.
+
+  Learn more at [Sli.dev](https://sli.dev)
 ---
+
+
 TODO:
 
 * [X] 寻找每次remove的时候，相对bgn_position的rx，ry变动量。
@@ -576,7 +592,6 @@ todo:
 
 ---
 
-
 # July 12nd
 
 这两天进行了期货对冲的数学原理推导，顺便测试了静态delta hedge：
@@ -586,29 +601,186 @@ todo:
 2. 希望两个币的数量都稳定，价格上升时，eth减少&usdt增加，希望有一个产品能够在价格上升时给我eth和拿走usdt。
 3. 合约思路： 币本位long + u本位short。Nomination和加入的区间与资金量关联。比如：作为LP提供了25eth，区间为3%，那么当价格浮动3%时，合约的pnl应为±25eth。（margin太多or倍数太高），因为UniV3Lp天然有杠杆，增加margin不能解决问题。
 
-
 回测发现，静态delta对冲的损失比较大，从原理上来看，这是因为Uni的dx是非线性的，而cswap和uswap是线性的。
 
-todo ： 
+todo ：
 
 本周以version2.1 即动态调整头寸，以局部线性逼近非线性，这个从原理上没想明白，可以直接试。
-
 
 # July 13rd
 
 正在写动态对冲的code。
 
-
 # July 14th
 
-
 完成了Uni+永续动态delta hedge的回测框架，正在测试结果对于参数的敏感性，也发现了这个策略的一些问题：
+
 1. 根据五天（0701-0705）的回测结果来看，同一使用cswap和分别使用uswap和cswap（真实情况）的差别并不大。
 2. 由于头寸比较大，较小的价格变动都会带来pnl的波动，导致收益曲线的毛刺比较多，但是总体趋势仍然可以体现。
 
 todo：
+
 1. 解决毛刺问题。
 2. 继续测试结果对参数的敏感性，测试多个区间，完善代码，一定要确保数据处理的正确性。
+
+# July 17th
+
+毛刺是插针的cex行情带来的，对冲的pnl对于u合约和c合约的价差非常敏感，但是每次插针总是会回归，是否还需要处理？即是否能够接受突然损失了大概13k后，又回到了正常的收益曲线上？（我感觉可以接受，但是需要严格证明）
+
+追加头寸  ： theta 设定为1% 时，每次追加头寸大约是2500 ~ 5000$。
+发现当theta控制为非常小（0.2%）的时候，损失和收益几乎相等。。。换言之，在不计交易费用的情况下，过小的theta难以获得正收益。
+
+从原理上来说追加头寸和之前的对冲方法有相似点。
+
+todo ：
+- 加入资金费率和手续费；
+- 找参数theta的规律；
+
+
+# July 18th
+
+总敞口dx在remove的时候会跳，其余时间都稳定。
+最好的结果是，价格游走到任何值时，总的eth的增量和u的增量都为0.
+另一种思路：
+1. 合约的amount可以保证平仓时总的dx和dy为0。**这样做则需要提前撤出，而不是等价格突破再撤出**
+2. 可以在撤出时不平仓，而是在add时加减仓。
+
+需要注意的问题：
+
+- 即使能够控制敞口在一定范围内，仍然需要定期做balance操作，否则单边行情中永续的保证金会不够用。
+
+todo：
+- 解决跳，改变amount，尽量使dx不随价格变化。
+- 如何处理杠杆率，设置保证金量
+
+
+# July 19th
+
+先验证改变amount的结论是否实际成立，目前取的是以价格上界设置amount。但是二者上界不一定相等。
+结论： c和u合约的amount一定要相同，否则会有合约净敞口。
+
+
+其实要达到任何时候撤出时，dx敞口尽量为0，目前能够实现。
+收益率不理想的原因：
+1. 每次撤出时dx的敞口并非严格0，因此每次remove后总有敞口增量累计。
+2. 归根结底，永续合约保证的是币量的稳定，但每次结算仍然会亏损对应IL。
+
+
+3. 修改对冲逻辑，不要一次性读取所有数据
+
+
+## case1: 
+
+20230707 00:01 ~ 20230707 00:03之间，由于cex的swap从1848跌倒1833，而dex价格仅为1838，导致eth合约损失的eth大于dex中被动增加的eth。出现了敞口。
+
+![image](image/diary/case1.png)
+
+
+doing : 
+正在扩大做市区间，似乎只要不撤出，dx和dy就可控，需要验证是否撤出会带来敞口，以及成因。
+
+经过061500 - 071000的回测发现，只要不撤出收益就挺平稳的，但是撤出之前那一段会有很大的回撤。
+
+
+# July 20th
+经东东提醒，不用同时做u和币本位，只用u本位，考虑价值相等就行了。要新增version2.3重新测试。
+
+version2.3 ：由于资金费率年化大约5~8%，不能使用这么大的头寸对冲。
+
+
+1. 如果一开始投入的是10000usdt，则需要保持lp value稳定。暂时不知道如何做
+2. **如果投入的是23eth + 50000usdt，则需要保持il稳定**
+  - 退一步讲，有办法能够保证两边撤出时，il稳定吗
+
+![1689822614012](image/diary/1689822614012.png)
+
+关于2的方案，目前网上有案例使用options。根据*Hedging Against Impermanent Loss: A Deep Dive With FinNexus Options*，价格偏移在30%以内，期权的对冲都不如naked。![image](https://academy-public.coinmarketcap.com/optimized-uploads/43b78a39a965403186b46d4d09c200c3.png)
+
+> Perpetuals and futures are common instruments hedging against price movement risks, especially for the spot crypto market. However, from the analysis above, the losses suffered by the liquidity provider in AMM pools is not linear, but bidirectional. IL is undertaken in either direction of price movement. While perpetuals and futures are linear hedging tools, they cannot effectively protect the liquidity providers in both directions.
+
+今日的结论很明确了 ： **如果1eth 和 1989usdt（当价格为1989时）是完全等价的，那只用u本位对冲IL就可以了，但是用期货构造IL的反向曲线似乎是不可行的。**
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
