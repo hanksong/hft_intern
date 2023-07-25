@@ -155,69 +155,60 @@ preload: false
 
 现货对冲的逻辑是在现货市场实时地将当前的敞口补平。然而在任何一段小的价格区间内，补偿口的操作的成交价格，总是比Uni上交换的平均价格更不利。
 
-
-
-
-
----
-
-# LaTeX
-
-LaTeX is supported out-of-box powered by [KaTeX](https://katex.org/).
-
-<br>
-
-Inline $\sqrt{3x-1}+(1+x)^2$
-
-Block
+### Target
 $$
-\begin{array}{c}
+在任何时候撤出，都能保持得到原有的eth和usdt数量。
+$$
+## Params
+$$
+\begin{cases}
+\theta : 价格偏移量 \\
+pct ：cex和dex的价差百分比
 
-\nabla \times \vec{\mathbf{B}} -\, \frac1c\, \frac{\partial\vec{\mathbf{E}}}{\partial t} &
-= \frac{4\pi}{c}\vec{\mathbf{j}}    \nabla \cdot \vec{\mathbf{E}} & = 4 \pi \rho \\
-
-\nabla \times \vec{\mathbf{E}}\, +\, \frac1c\, \frac{\partial\vec{\mathbf{B}}}{\partial t} & = \vec{\mathbf{0}} \\
-
-\nabla \cdot \vec{\mathbf{B}} & = 0
-
-\end{array}
+\end{cases}
 $$
 
-<br>
-
-[Learn more](https://sli.dev/guide/syntax#latex)
 
 ---
 
-# Diagrams
+# Example
 
-You can create diagrams / graphs from textual descriptions, directly in your Markdown.
 
-<div class="grid grid-cols-2 gap-4 pt-4 -mb-6">
-
-```mermaid {scale: 0.9}
-sequenceDiagram
-    Alice->John: Hello John, how are you?
-    Note over Alice,John: A typical interaction
-```
-
-```mermaid {theme: 'neutral', scale: 0.8}
-graph TD
-B[Text] --> C{Decision}
-C -->|One| D[Result 1]
-C -->|Two| E[Result 2]
-```
-
-</div>
-
-[Learn More](https://sli.dev/guide/syntax.html#diagrams)
+![image](https://img1.imgtp.com/2023/07/24/5YQdOUaq.png)
 
 
 ---
-layout: center
-class: text-center
+
+# Result
+根据选的两个参数做网格寻优
+
+
+
+| theta | pct | APR        | 夏普       | 最大回撤     | 临时损失     | 盈亏汇总       |
+|-------|-----|------------|------------|------------|-------------|---------------|
+| 150   | 15  | -0.0431    | -0.8460    | -0.0308    | -13292.7334  | -719.4914      |
+| 150   | 20  | -0.0446    | -0.8818    | -0.0309    | -13292.7334  | -745.4509      |
+| 150   | 25  | -0.0522    | -1.0634    | -0.0326    | -13292.7334  | -872.6701      |
+| 50    | 40  | -0.0529    | -1.9275    | -0.0214    | -13292.7334  | -884.3360      |
+| 50    | 25  | -0.0606    | -2.1744    | -0.0208    | -13292.7334  | -1012.4845     |
+| 50    | 30  | -0.0644    | -2.3935    | -0.0216    | -13292.7334  | -1075.4617     |
+| 150   | 10  | -0.0646    | -1.2629    | -0.0331    | -13292.7334  | -1079.4188     |
+| 150   | 30  | -0.0693    | -1.4037    | -0.0325    | -13292.7334  | -1157.3598     |
+
+
 ---
 
-# Learn More
+# Perpetual
+永续合约对冲
 
-[Documentations](https://sli.dev) / [GitHub Repo](https://github.com/slidevjs/slidev)
+
+永续和现货最大的区别是开仓时永远是公平的。
+
+这意味着不能在发生敞口后对冲，而需要在期初对冲。这和期货对冲现货的逻辑是一样的。
+
+<img src="https://img1.imgtp.com/2023/07/24/BoJnERYM.png" alt="模拟损益曲线在" width="500" height="300">
+
+
+---
+
+# 
