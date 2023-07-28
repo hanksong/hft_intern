@@ -155,7 +155,7 @@ $$
 现货对冲的逻辑是在现货市场实时地将当前的敞口补平。然而在任何一段小的价格区间内，补偿口的操作的成交价格，总是比Uni上交换的平均价格更不利。
 
 ## Target
-<div style="text-align: center;font-size: 24px">
+<div style="text-align: center;font-size: 20px">
 在任何时候撤出，都能保持得到原有的eth和usdt数量。
 </div>
 
@@ -171,12 +171,13 @@ $$
 Click here to view the sequence diagram
 Check out [现货对冲时序图](https://img1.imgtp.com/2023/07/27/DVEtYHU2.jpg) for more.
 
+
 ---
 
 # Example
 现货对冲，参数组theta = 0.005,pct = 0.0025
 
-<img src="https://img1.imgtp.com/2023/07/24/5YQdOUaq.png" width="800" height="200">
+<img src="https://img1.imgtp.com/2023/07/24/5YQdOUaq.png" width="600" height="200">
 
 
 ---
@@ -304,8 +305,9 @@ layout: center
 class: text-center
 ---
 
-# Conclusion
+# 心得
 
-想好再做;多复盘，迭代成长.
+🧠想好再做;多复盘，迭代成长.
+
 
 ---
