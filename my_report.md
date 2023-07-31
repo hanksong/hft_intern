@@ -10,8 +10,6 @@ info: |
 title: My Sliders
 ---
 
-
-
 # debriefing report
 
 
@@ -21,11 +19,9 @@ title: My Sliders
   </span>
 </div>
 
-
 <!--
 The last comment block of each slide will be treated as slide notes. It will be visible and editable in Presenter Mode along with the slide. [Read more in the docs](https://sli.dev/guide/syntax.html#notes)
 -->
-
 
 ---
 
@@ -309,5 +305,38 @@ class: text-center
 
 🧠想好再做;多复盘，迭代成长.
 
+## 工作展望
+
 
 ---
+
+dex流动性太差，统计dex的套利交易的比例（估计70%）
+需要超买和超卖：什么假设基础？
+
+封存策略：熊市时触发止损
+
+0. 明确对冲目标，保持谁的不变？
+  1. 浮动币不变，用divX和对冲补 单边行情div绝对不够补。
+  2. 谁是损失？币少了1个 u多了2000 是损失还是盈利?
+
+
+
+1. 尝试新的对冲方法，对冲工具（期货，期权），可以更换大的思路
+2. 代码整理，方便后续使用
+
+
+终极超买：在开仓就买 我知道价格往哪边突破。
+
+
+---
+
+1. Pool加入 eth=25个, u = 50000; 同时期货合约(不是永续)做多25个eth;此时价格是p0 = 2000
+2. 无论pool如何变化,始终力求价值不变 = 25 * p0 + 50000 = 100 000
+  1. 最终价格上涨到p1,pool中全部变成u了, 则使用25 * p0 通过合约交割25个eth.
+  2. 最终价格下跌到p2, pool中全部变成eth了,如果保证了价值是100000u,全卖掉之后,只需拿出一半u 交割合约即可.
+
+3. 但是"力求价值不变"这一步不可能实现。
+---
+
+
+
