@@ -89,7 +89,13 @@ a : 总体来说trader亏 hlp那边就能赚 类似对赌
 
 ![liquidity pool list](image/hmx/1691050667973.png)
 
+---
 
+# HMX代币分配
+
+![hmx](https://1165373138-files.gitbook.io/~/files/v0/b/gitbook-x-prod.appspot.com/o/spaces%2FXLy6pU2uwi3o5aD8mdkX%2Fuploads%2FbYO81JQTO8APZVDH4tM1%2Fimage.png?alt=media&token=c63e0361-fa37-466f-be82-ceebe765390b)
+
+![timeline](https://1165373138-files.gitbook.io/~/files/v0/b/gitbook-x-prod.appspot.com/o/spaces%2FXLy6pU2uwi3o5aD8mdkX%2Fuploads%2FlyQp1ob8H1lelIN3rWT7%2FScreen%20Shot%202023-08-04%20at%2021.15.20.png?alt=media&token=a555f8ee-61d0-415e-b65b-e50d6db41add)
 
 
 
