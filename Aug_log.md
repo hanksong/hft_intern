@@ -17,14 +17,23 @@ TODO
 1. HMX研究
 2. 一个简明清晰的示意图，展现kwenta的金融模型。
 
-
 AUG 3
 
 1. 整理HMX的交易逻辑，杠杆做市提高glp利用率，同时采用6种机制保证HLP holder（特别的是价格调整、基于速率的资金费率和利率储备buffer）
 2. trader则拥有全局抵押的模式，可用多种币做保证金。
 3. 在HMX上进行交易尝试。
 
-
 Profit reserve是什么含义
 
 文档需要整合到一起，快速切换，保持会议流畅。
+
+# Aug 7
+
+1. 整理两个文档，绘制示意图
+2. kwenta + hmx 协议串讲
+
+TODO：
+
+1. price feed hmx喂价机制
+2. kwenta奖励计划
+3. snx价值

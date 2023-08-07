@@ -1,14 +1,13 @@
 ---
 theme: unicorn
 ---
-
 # HMX
 
 https://kjwez9gefn.feishu.cn/docx/WYAmdQdgiorL9BxdAwTcPzNYnBh
 
 <div grid="~ cols-2 gap-4">
 <div>
-<img border="rounded" src="https://miro.medium.com/v2/resize:fit:1400/format:webp/0*Pyt3KKYDuWGCiMs5.png" width="600" height="200">
+<img border="rounded" src="https://miro.medium.com/v2/resize:fit:1400/format:webp/0*Pyt3KKYDuWGCiMs5.png" width="600" height="500">
 </div>
 <div>
 1. 用户将资产存入 GMX 的 GLP 并接收 GLP 代币。
@@ -17,10 +16,14 @@ https://kjwez9gefn.feishu.cn/docx/WYAmdQdgiorL9BxdAwTcPzNYnBh
 3. GLP 金库中的流动性用于为 GMX 的交易者做市，从而以 ETH 的形式从柜台交易和费用中产生利润/损失。
 4. 与此同时，HMX 将质押 GLP 的流动性重新抵押给 HMX 交易者的做市商，通过对销交易和费用（借款、开仓/平仓等）累积利润/损失。
 5. 然后，HMX 向其交易者收取费用，并从 GMX 收取 ETH 收益，并将其与 esHMX 发行奖励一起重新分配给用户。
+
 </div>
 </div>
 
+
+
 ---
+
 # global debt pool
 
 ![1691375107283](image/gmx_fork/1691375107283.png)
@@ -55,7 +58,7 @@ https://kjwez9gefn.feishu.cn/docx/WYAmdQdgiorL9BxdAwTcPzNYnBh
 ## loss：
 
 1. 债务池膨胀（sToken总体上涨）
-2. SNX（抵押物）贬值 ：需要使质押价值维持在c-ratio（500%）
+2. SNX（抵押物）贬值 ：需要使质押价值维持在c-ratio才能分到fees
 
 ---
 
@@ -64,3 +67,23 @@ https://kjwez9gefn.feishu.cn/docx/WYAmdQdgiorL9BxdAwTcPzNYnBh
 1. 通过[SIP2002](https://sips.synthetix.io/sips/sip-2002/)提案从synthetix获得SNX奖励。
 
 ---
+
+# 基本数据对比
+
+https://dune.com/maverick_cap/perp-dex
+
+|        | TVL                                   | fees(annualized) | volume24h |
+| ------ | ------------------------------------- | ---------------- | --------- |
+| GMX    | 540m                                  | 63.38m           | 15.23m    |
+| Kwenta | https://defillama.com/protocol/kwenta |                  |           |
+| SNX    | 481m                                  | 40.04m           | 40.91m    |
+| HMX    | 7.74m                                 | 1.73m            | 4.31m     |
+
+
+
+
+TODO：
+
+1. price feed hmx喂价机制
+2. kwenta奖励计划
+3. snx价值
