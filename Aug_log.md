@@ -37,3 +37,57 @@ TODO：
 1. price feed hmx喂价机制
 2. kwenta奖励计划
 3. snx价值
+
+
+# Aug 8
+
+1. 解答串讲提出的几个问题
+2. 构建横向对比的表格，填充已知信息
+Todo ： 
+   1. dydx数据填充
+
+
+排期
+1. 对比交易所: dydx、gmx、level、 gains.network、kwenta
+2. hmx1表格字段:[价格: 喂价机制、实际交易价格]、[交易机制: trader交易的机制、LP0提供流动性的机制、各个角色的风险和收益来源][费用: 开仓平仓费、swap费、funding fee、borrow fee 及其他手续费]
+3. 数据对比: 交易量、TVL、累计手续费...
+
+
+# Aug 9
+
+1. dydx doc整理
+2. 补充hmx预言机机制
+
+
+
+# Aug 10
+
+1. 联系hmx 看他们的MEV resistant还有没有用: 使用 [pyth VAA](https://pyth.network/blog/pyth-a-new-model-to-the-price-oracle)直接获得价格
+2. 阅读期权小白书，重点关注了calendar spread的部分。
+3. 在deribit testnet构建calendar spread组合
+
+# Aug 11
+
+1. 在看deribit的期权课程
+3. 整理资金费率套利的基本信息
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
